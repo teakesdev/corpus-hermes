@@ -8,6 +8,7 @@
     "url": "https://corpuslaw.us"
   },
   "homepage": "https://corpuslaw.us",
+  "repository": "https://github.com/teakesdev/corpus-hermes",
   "license": "MIT",
   "keywords": ["legal", "law", "formation", "llc", "compliance", "mcp"]
 }

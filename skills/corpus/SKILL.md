@@ -74,12 +74,21 @@ user-visible output.
 
 ## Worked example — Texas LLC
 
-1. `law.search` + `formation.requirements` for Texas LLC (cite returned
-   statutes; do not invent the checklist).
-2. Collect name, registered agent, members, NAICS (`formation.lookup_naics`),
-   and address. Refuse SSN.
-3. `formation.handoff` → prefilled corpuslaw.us link.
-4. Tell the founder: open the link, review, pay, file. You stop there.
+1. **Research.** Call `law.search` for Texas LLC formation / registered-agent
+   rules (cite returned `citation`s verbatim; jurisdiction Texas). Call
+   `formation.requirements` for the live TX LLC checklist and price — do not
+   invent either.
+2. **Draft outline (before handoff).** List the fields you will collect, for
+   example: proposed name, principal office (street, city, TX, ZIP), contact
+   email, registered agent, member- vs manager-managed, at least one member,
+   organizer, NAICS via `formation.lookup_naics`. Confirm the live price from
+   step 1. **Refuse SSN.**
+3. Collect those answers in conversation. Call `formation.lookup_naics` and
+   let the user pick.
+4. `formation.handoff` with everything collected → missing fields or a
+   prefilled corpuslaw.us link.
+5. Tell the founder: open the link, review the draft, sign in, and pay. You
+   do not file and do not take payment. You stop there.
 
 ## Verification
 
