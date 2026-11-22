@@ -3,7 +3,7 @@
 Agent Plugins v1 package for [Corpus](https://corpuslaw.us): live US legal
 research and business-formation handoff.
 
-The **content** (this skill + the MCP URL) is vendor-neutral. The **package
+The **content** (the two skills + the MCP URL) is vendor-neutral. The **package
 wrapper** is Agent Plugins v1 (`plugin.json` + `mcp.json` at the repo root) —
 that layout installs directly in Hermes today. Codex/ChatGPT use a different
 folder shape; they reuse the same URL.
@@ -23,31 +23,34 @@ A Codex folder-adapter is a later package, not this one.
 
 ## Install (Hermes)
 
-Local copy (this directory is not a GitHub identifier yet):
-
 ```bash
-hermes plugins doctor .          # zero diagnostics
-cp -R . ~/.hermes/plugins/corpus
+hermes plugins install teakesdev/corpus-hermes --no-enable
 hermes plugins enable corpus     # portable packages install disabled
-hermes mcp test corpus
-```
-
-Once the repo is on GitHub:
-
-```bash
-hermes plugins install <owner/repo> --no-enable
-hermes plugins enable corpus
+hermes plugins doctor corpus --ci
 ```
 
 Portable packages install **disabled**. Enable is a separate consent step.
 
-No secrets belong in `mcp.json`. Anonymous research works without a key.
-For higher limits, add a header via `hermes mcp add` (not this file); ask the
-agent to call `account.status` for the live limits:
+After enabling, start a fresh Hermes chat and ask it to call `law.list_coverage`
+and list the two Corpus skills. Plugin MCP servers use a namespaced runtime ID, so
+`hermes mcp test corpus` only tests a separately configured standalone server.
+
+From a local checkout instead: `hermes plugins doctor .`, then
+`cp -R . ~/.hermes/plugins/corpus` and `hermes plugins enable corpus`.
+
+## Limits
+
+No secrets belong in `mcp.json`. Research is free to start: 250 searches a month
+without a key (per IP), 1,000 a month at 30/min with a free self-serve key from
+https://corpuslaw.us/settings, and 5,000 a month at 60/min once a company has been
+formed through Corpus. Formation tools never use research credits. Ask the agent to
+call `account.status` for the live numbers.
+
+To use a key, add it as a header with `hermes mcp add --auth header` (not in this
+file), and paste the key when Hermes prompts for the API key / Bearer token:
 
 ```bash
-# free self-serve key — https://corpuslaw.us/settings
-hermes mcp add corpus --url "https://corpuslaw.us/api/mcp"
+hermes mcp add corpus --url "https://corpuslaw.us/api/mcp" --auth header
 ```
 
 ## What the agent should do
